@@ -1,0 +1,3 @@
+class customer {
+    name: string;
+}

@@ -1,0 +1,14 @@
+<p>for-list works!</p>
+
+
+<input (input)="update($event)">
+<br>
+Search {{search()}}
+
+<!-- search results: {{searchResult()}} -->
+
+<ul>
+    @for (user of filterUsers(); track filterUsers()) {
+    <li>{{user.firstName}} {{user.lastName}}</li>
+    }
+</ul>
