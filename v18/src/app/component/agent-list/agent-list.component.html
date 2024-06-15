@@ -1,0 +1,10 @@
+<div>
+    <div>
+        @for (agent of agents(); track $index) {
+        <div>
+            <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
+            <app-conversation-list [conversations]="agent.conversations" />
+        </div>
+        }
+    </div>
+</div>

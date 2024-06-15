@@ -1,0 +1,22 @@
+<p>conversation works!</p>
+
+<div>
+
+    <div [ngClass]="{'new' : conversationIsNew()}">
+
+        <div>
+            <!-- app-timer -->
+        </div>
+
+        <div>
+            <span>{{fullName()}}</span>
+        </div>
+
+        <div>
+            <span>
+                @if (conversationIsNew()) {New}
+            </span>
+        </div>
+    </div>
+
+</div>
