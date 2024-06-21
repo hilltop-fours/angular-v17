@@ -1,12 +1,19 @@
-<!-- <h3>agent-list.html</h3> -->
+<div class="agent-list__parent">
 
-<div>
-    <div>
-        @for(agent of agents(); track agent) {
-        <div>
-            <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
-            <app-conversation-list [conversations]="agent.conversations" />
+    <div class="agent-list__container">
+
+        <div class="agent-list__child">
+
+            @for(agent of agents(); track agent) {
+            <div class="container-fluid bg-red-50">
+                <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
+
+                <app-conversation-list [conversations]="agent.conversations" />
+            </div>
+            }
+
         </div>
-        }
+
     </div>
+
 </div>
