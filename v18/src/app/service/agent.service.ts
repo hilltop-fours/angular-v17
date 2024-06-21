@@ -13,9 +13,8 @@ export class AgentService implements IAgentService {
 
   url = 'http://localhost:3000/agent';
 
-  constructor() { }
-
   getAgents(id: number): Observable<Agent[]> {
+    console.log(`id: ${id}`)
     return this.http.get<Agent[]>(`${this.url}/monitor/${id}`);
   }
 }

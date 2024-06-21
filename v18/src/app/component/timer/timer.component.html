@@ -1,8 +1,6 @@
-<!-- <div class="timer" [ngClass]="{
-    'on-time': isOnTime,
-    'too-late': isTooLate,
-    'new': isNew}">
-    <span>{{elapsedMinutes}}:{{elapsedSeconds}}</span>
-</div> -->
-
-<span>{{elapsedMinutes()}}:{{elapsedSeconds()}}</span>
+<div class="timer" [ngClass]="{
+    'on-time': isOnTime(),
+    'too-late': isTooLate(),
+    'new': isNew()}">
+    <span>{{elapsedMinutes()}}:{{elapsedSeconds()}}</span>
+</div>

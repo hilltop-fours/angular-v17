@@ -5,9 +5,7 @@
     <div [ngClass]="{'new' : conversationIsNew()}">
 
         <div>
-            <!-- <span class="bg-emerald-400">{{lastUpdatedDateTime()}}</span> -->
-            <!-- <span class="bg-cyan-300">{{conversationIsNew()}}</span> -->
-            <!-- <app-timer [lastUpdatedDateTime]="lastUpdatedDateTime()" [isNew]="conversationIsNew()" /> -->
+            <app-timer [lastUpdatedDateTime]="lastUpdatedDateTime()" [isNew]="conversationIsNew()" />
         </div>
 
         <div>

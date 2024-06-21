@@ -1,6 +1,12 @@
 <h3>conversation-list.html</h3>
 
 @for (conversation of conversations(); track conversation) {
-<app-conversation [fullName]="conversation.fullName" [answerState]="conversation.answerState"
-    [lastUpdatedDateTime]="conversation.lastUpdatedDateTime" [senderWasOwner]="conversation.senderWasOwner" />
+
+fullname: {{conversation.fullName}}
+answerState: {{conversation.answerState}}
+lastUpdatedDateTime: {{conversation.lastUpdatedDateTime}}
+senderWasOwner: {{conversation.senderWasOwner}}
+
+<!-- <app-conversation [fullName]="conversation.fullName" [answerState]="conversation.answerState"
+    [lastUpdatedDateTime]="conversation.lastUpdatedDateTime" [senderWasOwner]="conversation.senderWasOwner" /> -->
 }

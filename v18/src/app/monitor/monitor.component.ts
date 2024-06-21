@@ -26,16 +26,27 @@ export class MonitorComponent {
   readonly csrAwaitingResponse = signal<Agent[]>([])
 
   constructor() {
+    console.log(`constructor`)
+
     const agents$ = toSignal(this.agentService.getAgents(), { initialValue: [] })
+    console.log(`constructor agents$: ${agents$.length}`)
+
     this.updateAwaitingResponses(agents$())
   }
 
   private updateAwaitingResponses(agents: Agent[]): void {
+
+    console.log(`updateAwaitingResponses agents: ${agents.length}`)
+
     if (agents.length > 0) {
       this.agents.set(this.organizeAgents(agents));
       this.customerAwaitingResponse.set(this.getAwaitingResponseAgents(agents, true))
       this.csrAwaitingResponse.set(this.getAwaitingResponseAgents(agents, false))
     }
+
+    console.log(`update agents: ${this.agents().length}`)
+    console.log(`customerAwaitingResponse: ${this.customerAwaitingResponse().length}`)
+    console.log(`csrAwaitingResponse: ${this.csrAwaitingResponse().length}`)
   }
 
   private organizeAgents(agents: Agent[]): Agent[] {
@@ -86,7 +97,7 @@ export class MonitorComponent {
 
   private getAwaitingResponseAgents(agents: Agent[], sender: boolean): Agent[] {
 
-    return agents
+    // return agents
 
     agents.map(agent => {
       agent.conversations = agent.conversations.filter(conversation => conversation.senderWasOwner === sender);
