@@ -2,6 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AgentComponent } from '../component/agent/agent.component';
 import { AwaitingResponseComponent } from '../component/awaiting-response/awaiting-response.component';
+import { TimerComponent } from '../component/timer/timer.component';
 import { ConversationState } from '../enum/conversation-state';
 import { Agent } from '../interface/agent';
 import { AgentMockService } from '../service/agent-mock.service';
@@ -10,7 +11,7 @@ import { Luxon } from '../util/luxon';
 @Component({
   selector: 'app-monitor',
   standalone: true,
-  imports: [AwaitingResponseComponent, AgentComponent],
+  imports: [AwaitingResponseComponent, AgentComponent, TimerComponent],
   templateUrl: './monitor.component.html',
   styleUrl: './monitor.component.scss'
 })
@@ -84,6 +85,9 @@ export class MonitorComponent {
   }
 
   private getAwaitingResponseAgents(agents: Agent[], sender: boolean): Agent[] {
+
+    return agents
+
     agents.map(agent => {
       agent.conversations = agent.conversations.filter(conversation => conversation.senderWasOwner === sender);
       return agent;

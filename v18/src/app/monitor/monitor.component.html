@@ -1,12 +1,17 @@
-<div class="container">
+<div>
+    <span>timer</span>
+    <app-timer lastUpdatedDateTime="2024-06-01T00:00:00" [isNew]="true"></app-timer>
+</div>
 
-    <div class="row">
+<div class="container mx-auto">
 
-        <div class="col-8 bg-red-100">
+    <div class="grid grid-cols-12 gap-8">
+
+        <div class="bg-red-100 col-span-8">
             <app-awaiting-response header=" Customer Awaiting Response" [agents]="customerAwaitingResponse()" />
         </div>
 
-        <div class="col-4 bg-green-100">
+        <div class="bg-green-100 col-span-4">
             <app-awaiting-response header=" CSR Awaiting Response" [agents]="csrAwaitingResponse()" />
         </div>
 

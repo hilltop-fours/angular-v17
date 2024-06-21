@@ -1,8 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component, OnDestroy, OnInit, input } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, effect, inject, input, signal } from '@angular/core';
 import { DateTime } from 'luxon';
-import { Observable, Subscription, timer } from 'rxjs';
-import { Luxon } from '../../util/luxon';
+import { Observable, Subject, takeUntil, timer } from 'rxjs';
 
 const POLLING = 1000;
 const MINUTES = 3; // This value should remain 3 for developmental purposes.
@@ -17,33 +16,69 @@ const MILLISECONDS_IN_MINUTES = 60000;
 })
 export class TimerComponent implements OnInit, OnDestroy {
 
+  injector = inject(Injector)
+
   readonly isNew = input.required<boolean>()
   readonly lastUpdatedDateTime = input.required<string>()
 
-  elapsedMinutes!: number;
-  elapsedSeconds!: number;
-  isOnTime!: boolean;
-  isTooLate!: boolean;
+  readonly elapsedMinutes = signal<number>(0);
+  readonly elapsedSeconds = signal<number>(0);
+  private readonly elapsedMilliseconds = signal<number>(0);
 
-  private elapsedMilliseconds!: number;
-  private sla: number = MINUTES * MILLISECONDS_IN_MINUTES; // Mocked value. minutes * unit, converted to milliseconds
+  private readonly isOnTime = signal<boolean>(true);
+  private readonly isTooLate = signal<boolean>(false);
 
-  private everySecond: Observable<number> = timer(0, POLLING);
-  private subscription!: Subscription;
+  private readonly sla = signal<number>(MINUTES * MILLISECONDS_IN_MINUTES); // Mocked value. minutes * unit, converted to milliseconds
+
+  // private everySecond: Observable<number> = timer(0, POLLING);
+  // private subscription!: Subscription;
+
+
+  readonly pollingDone = signal<boolean>(false);
+  private readonly timerDone$ = new Subject<boolean>();
+
+  startPolling(interval: number): Observable<any> {
+    return timer(0, interval).pipe(
+      takeUntil(this.timerDone$)
+    )
+  }
+
+  asdas = effect(() => {
+    this.timerDone$.next(this.pollingDone())
+
+    if (this.pollingDone() === false) {
+      this.startPolling(1000).subscribe((value) => console.log(value))
+    }
+  })
+
+
+
 
   ngOnInit(): void {
-    this.subscription = this.everySecond.subscribe(() => {
-      const elapsedDateTime = this.getElapsedTime();
-      this.elapsedMinutes = Luxon.formatTime(elapsedDateTime.minutes);
-      this.elapsedSeconds = Luxon.formatTime(elapsedDateTime.seconds);
-      this.elapsedMilliseconds = Luxon.getElapsedMilliseconds(this.lastUpdatedDateTime());
-      this.isOnTime = this.updateIsOnTime();
-      this.isTooLate = this.updateIsToolate();
-    });
+
+
+    // afterNextRender(() => window.onbeforeunload = () => this.ngOnDestroy(), { injector: this.injector });
+
+    // this.subscription = this.everySecond.subscribe((t) => {
+    //   const elapsedDateTime = this.getElapsedTime();
+
+    //   console.log(`t: ${t}`);
+
+    //   this.elapsedMinutes.set(Luxon.formatTime(elapsedDateTime.minutes))
+
+    //   // console.log(`elapsedMinutes: ${this.elapsedMinutes()}`)
+
+
+    //   // this.elapsedSeconds.set(Luxon.formatTime(elapsedDateTime.seconds))
+    //   // this.elapsedMilliseconds.set(Luxon.getElapsedMilliseconds(this.lastUpdatedDateTime()))
+    //   // this.isOnTime.set(this.updateIsOnTime());
+    //   // this.isTooLate.set(this.updateIsToolate());
+    // });
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    console.log('ngOnDestroy');
+    // this.subscription.unsubscribe();
   }
 
   private getElapsedTime() {
@@ -56,10 +91,10 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   private updateIsOnTime(): boolean {
-    return this.elapsedMilliseconds < this.sla;
+    return this.elapsedMilliseconds() < this.sla();
   }
 
   private updateIsToolate(): boolean {
-    return !this.isOnTime;
+    return !this.isOnTime();
   }
 }
