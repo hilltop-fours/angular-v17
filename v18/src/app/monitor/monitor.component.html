@@ -1,15 +1,13 @@
-<h1>monitor.html</h1>
+<div class="container-fluid">
 
-<div>
+    <div class="row">
 
-    <div>
-
-        <div>
-            <app-awaiting-response header="Customer Awaiting Response" [agents]="customerAwaitingResponse()" />
+        <div class="col-8 bg-gray-900">
+            <app-awaiting-response header=" Customer Awaiting Response" [agents]="customerAwaitingResponse()" />
         </div>
 
-        <div>
-            <app-awaiting-response header="CSR Awaiting Response" [agents]="csrAwaitingResponse()" />
+        <div class="col-4">
+            <app-awaiting-response header=" CSR Awaiting Response" [agents]="csrAwaitingResponse()" />
         </div>
 
     </div>
