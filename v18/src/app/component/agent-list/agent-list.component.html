@@ -1,6 +1,8 @@
+<h3>agent-list.html</h3>
+
 <div>
     <div>
-        @for (agent of agents(); track $index) {
+        @for(agent of agents(); track agent) {
         <div>
             <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
             <app-conversation-list [conversations]="agent.conversations" />

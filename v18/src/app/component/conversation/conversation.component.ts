@@ -1,11 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { AnswerState } from '../../enum/answer-state';
+import { TimerComponent } from '../timer/timer.component';
 
 @Component({
   selector: 'app-conversation',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, TimerComponent],
   templateUrl: './conversation.component.html',
   styleUrl: './conversation.component.scss'
 })
