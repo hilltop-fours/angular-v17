@@ -20,33 +20,20 @@ export class MonitorComponent {
   private readonly agentService = inject(AgentMockService)
 
   readonly agents = signal<Agent[]>([])
-  private readonly agents$ = signal<Agent[]>([])
 
   readonly customerAwaitingResponse = signal<Agent[]>([])
   readonly csrAwaitingResponse = signal<Agent[]>([])
 
   constructor() {
-    // const data$ = this.agentService.getAgents().subscribe({
-    //   next: (data: Agent[]) => { this.agents.set(data) },
-    //   error: (error: Error) => { console.error(error) },
-    //   complete: () => { this.updateAwaitingResponses(this.agents()) }
-    // })
-
-    const data$ = this.agentService.getAgents()
-    const data = toSignal(data$, { initialValue: [] })
-    this.agents.set(data())
-    this.updateAwaitingResponses(this.agents())
+    const agents$ = toSignal(this.agentService.getAgents(), { initialValue: [] })
+    this.updateAwaitingResponses(agents$())
   }
 
   private updateAwaitingResponses(agents: Agent[]): void {
-    console.log('agents', agents)
-    console.log('agents.length', agents.length)
     if (agents.length > 0) {
       this.agents.set(this.organizeAgents(agents));
-
-      const aaa = this.getAwaitingResponseAgents(agents, true);
       this.customerAwaitingResponse.set(this.getAwaitingResponseAgents(agents, true))
-      // this.csrAwaitingResponse.set(this.getAwaitingResponseAgents(agents, false))
+      this.csrAwaitingResponse.set(this.getAwaitingResponseAgents(agents, false))
     }
   }
 
@@ -97,10 +84,6 @@ export class MonitorComponent {
   }
 
   private getAwaitingResponseAgents(agents: Agent[], sender: boolean): Agent[] {
-    console.log('sender', sender)
-    agents = JSON.parse(JSON.stringify(agents));
-    return agents
-
     agents.map(agent => {
       agent.conversations = agent.conversations.filter(conversation => conversation.senderWasOwner === sender);
       return agent;
