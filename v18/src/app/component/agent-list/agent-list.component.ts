@@ -13,5 +13,6 @@ import { ConversationComponent } from '../conversation/conversation.component';
 })
 export class AgentListComponent {
 
+  readonly columns = input.required<number>()
   readonly agents = input.required<Agent[]>()
 }

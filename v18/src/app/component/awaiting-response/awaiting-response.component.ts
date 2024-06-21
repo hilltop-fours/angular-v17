@@ -11,6 +11,7 @@ import { AgentListComponent } from '../agent-list/agent-list.component';
 })
 export class AwaitingResponseComponent {
 
+  readonly columns = input.required<number>()
   readonly header = input.required<string>()
   readonly agents = input.required<Agent[]>()
 }

@@ -1,19 +1,11 @@
-<div class="agent-list__parent">
+<div class="bg-emerald-50 grid grid-cols-{{columns()}} gap-4">
 
-    <div class="agent-list__container">
+    @for(agent of agents(); track agent) {
+    <div class="bg-red-50">
+        <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
 
-        <div class="agent-list__child">
-
-            @for(agent of agents(); track agent) {
-            <div class="container-fluid bg-red-50">
-                <app-agent [firstName]="agent.firstName" [lastName]="agent.lastName" />
-
-                <app-conversation-list [conversations]="agent.conversations" />
-            </div>
-            }
-
-        </div>
-
+        <app-conversation-list [conversations]="agent.conversations" />
     </div>
+    }
 
 </div>
